@@ -1,0 +1,4 @@
+# Sitio estático — sin comando de build.
+# Subí este directorio como raíz del repositorio (recomendado).
+[build]
+  publish = "."

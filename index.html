@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mis 15 Años - Abigail Bustos</title>
+  <meta name="description" content="Invitación interactiva: Mis 15 Años - Abigail Bustos">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    // Configuración rápida (editá acá).
+    window.INVITA = {
+      nombre: "Abigail Bustos",
+      paginas: [
+        "assets/invitacion-pagina-1.png",
+        "assets/invitacion-pagina-2.png"
+      ],
+      // Programa / evento (página 3)
+      evento: {
+        fechaTitulo: "Viernes, 22 de Mayo de 2026",
+        // formato: "YYYY-MM-DDTHH:mm:ss" (hora local del dispositivo)
+        cuentaRegresiva: "2026-05-22T20:00:00",
+        ceremonia: { titulo: "Ceremonia Religiosa", lugar: "Asamblea de Dios", hora: "20:00 hs" },
+        fiesta: { titulo: "Recepción y Fiesta", lugar: "Salón SOEM", hora: "22:00 hs" },
+      },
+      links: {
+        mapsIglesia: "https://maps.app.goo.gl/dSZeh7eURKXj3kEKA",
+        mapsSalon: "https://maps.app.goo.gl/KWhxMKQhWDZ1RTLu6",
+        /** Mensaje sin caracteres rotos (el enlace que pegaste tenía � al final). */
+        whatsapp:
+          "https://api.whatsapp.com/send/?phone=5493804565751&text=" +
+          encodeURIComponent("¡Hola Abigail! Confirmo mi asistencia. ✦") +
+          "&type=phone_number&app_absent=0"
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1a0f0a;
+      background-image: radial-gradient(circle at center, #2a1a10 0%, #000000 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: 'Cinzel', serif;
+      overflow: hidden;
+    }
+
+    .cover-container {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      height: 85vh;
+      max-height: 800px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      animation: fadeInScale 1.5s ease-out forwards;
+      background-color: #1a0f0a;
+    }
+
+    .page {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    /* Página 2 */
+    #page2 {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.05);
+      overflow-y: auto;
+      overflow-x: hidden;
+      background-color: #fdf5e6;
+    }
+
+    .readable-text-container {
+      padding: 20px 30px 40px 30px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      color: #2c1e12;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      background:
+        linear-gradient(180deg, rgba(253,245,230,0.98), rgba(245,232,210,0.98)),
+        repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(44,30,18,0.04) 1px, rgba(44,30,18,0.04) 2px);
+      border-top: 2px solid #d4af37;
+      position: relative;
+      z-index: 5;
+    }
+
+    .readable-text-container p { margin-bottom: 15px; }
+    .page-2-image { width: 100%; height: auto; display: block; }
+
+    .main-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .cover-container:hover .main-image { transform: scale(1.03); }
+
+    /* Viñeta (corregida, sin 'background: inset ...') */
+    .vignette {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 80px rgba(0,0,0,0.55);
+      background: radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,0.25) 100%);
+    }
+
+    /* Botón Dorado */
+    .enter-button-container { position: absolute; bottom: 40px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 20; }
+    .btn-gold {
+      background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+      background-size: 200% 200%;
+      color: #2c1e12;
+      padding: 12px 35px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: 2px solid #5a4118;
+      border-radius: 30px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 10px rgba(255,255,255,0.5);
+      transition: all 0.3s ease;
+      animation: shimmer 3s infinite linear;
+      font-family: 'Cinzel', serif;
+    }
+    .btn-gold:hover, .btn-gold:focus-visible { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.6), 0 0 15px rgba(212, 175, 55, 0.6); outline: none; }
+
+    @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+    @keyframes fadeInScale { 0% { opacity: 0; transform: scale(0.95) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+
+    /* Magia */
+    .particle { position: absolute; border-radius: 50%; background-color: #ffd700; box-shadow: 0 0 10px #ffd700, 0 0 20px #ffaa00; pointer-events: none; opacity: 0; z-index: 10; }
+    .petal { position: fixed; background-color: #8b0000; border-radius: 15px 0 15px 0; box-shadow: inset 2px 2px 5px rgba(255,0,0,0.3), 1px 1px 3px rgba(0,0,0,0.5); pointer-events: none; z-index: 15; opacity: 0.8; animation: fall linear infinite; }
+    @keyframes floatMagic { 0% { transform: translateY(0) scale(0); opacity: 0; } 50% { opacity: 0.8; transform: translateY(-50px) scale(1); } 100% { transform: translateY(-100px) scale(0); opacity: 0; } }
+    @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg) scale(0.5); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(110vh) rotate(360deg) scale(1); opacity: 0; } }
+
+    /* Página 3 */
+    #page3 {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(100%);
+      overflow-y: auto;
+      overflow-x: hidden;
+      background-color: #f4e8d1;
+      background-image: radial-gradient(circle at center, transparent 0%, rgba(139, 69, 19, 0.15) 100%);
+      padding: 20px;
+    }
+
+    .parchment-scroll {
+      background: #fdf5e6;
+      border: 2px solid #c7a153;
+      border-radius: 5px;
+      padding: 30px 15px;
+      position: relative;
+      box-shadow:
+        0 15px 25px rgba(0,0,0,0.2),
+        inset 0 0 40px rgba(212, 175, 55, 0.15),
+        inset 0 0 10px rgba(139, 69, 19, 0.2);
+      text-align: center;
+      margin-bottom: 30px;
+      margin-top: 10px;
+    }
+
+    .parchment-scroll::before, .parchment-scroll::after {
+      content: '';
+      position: absolute;
+      left: -10px; right: -10px;
+      height: 20px;
+      background: linear-gradient(to bottom, #e2c881, #b8860b, #8a6d3b);
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+    .parchment-scroll::before { top: -10px; }
+    .parchment-scroll::after { bottom: -10px; }
+
+    .program-title {
+      font-size: 1.8rem;
+      color: #5a4118;
+      font-weight: bold;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 0px rgba(255,255,255,0.7);
+    }
+
+    .program-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #8b0000;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .program-date {
+      font-size: 1rem;
+      color: #2c1e12;
+      font-weight: bold;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #d4af37;
+      display: inline-block;
+    }
+
+    .event-block { margin: 15px 0; }
+    .event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #5a4118;
+      font-style: italic;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .event-details { font-size: 1rem; color: #2c1e12; margin-top: 5px; line-height: 1.4; }
+
+    /* Íconos (Iglesia) */
+    .gold-icon {
+      width: 24px;
+      height: 24px;
+      fill: #b8860b;
+      filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+      flex: 0 0 auto;
+    }
+
+    /* Cuenta regresiva */
+    .countdown-title { text-align: center; color: #5a4118; font-size: 1.2rem; margin-bottom: 15px; font-weight: bold; }
+    .countdown-grid { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+
+    .time-box {
+      background: linear-gradient(135deg, #2c1e12, #1a0f0a);
+      border: 2px solid #d4af37;
+      border-radius: 8px;
+      width: 65px;
+      height: 75px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3), inset 0 0 10px rgba(212,175,55,0.2);
+      color: #fdf5e6;
+    }
+    .time-box .number { font-size: 1.8rem; font-weight: bold; color: #fcf6ba; text-shadow: 0 0 5px rgba(252, 246, 186, 0.5); }
+    .time-box .label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: #d4af37; font-family: 'Playfair Display', serif; }
+
+    /* Botones */
+    .action-buttons-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding-bottom: 40px;
+    }
+
+    .btn-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #5a4118, #2c1e12, #000);
+      border: 4px solid #b8860b;
+      box-shadow:
+        0 10px 20px rgba(0,0,0,0.5),
+        inset 0 0 15px rgba(255, 215, 0, 0.4),
+        inset 0 0 5px #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fcf6ba;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      padding: 10px;
+    }
+
+    .btn-circle:hover { transform: scale(1.08) translateY(-5px); box-shadow: 0 15px 25px rgba(0,0,0,0.6), inset 0 0 20px rgba(255, 215, 0, 0.6); }
+    .btn-circle span { font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; margin-top: 5px; font-size: 0.6rem; }
+
+    .btn-book {
+      width: 130px;
+      height: 150px;
+      background: linear-gradient(to right, #4a3018 0%, #8a5a2b 10%, #5a3a1c 90%, #3a2010 100%);
+      border-radius: 5px 15px 15px 5px;
+      border: 2px solid #b8860b;
+      box-shadow:
+        15px 10px 20px rgba(0,0,0,0.4),
+        inset 5px 0 10px rgba(0,0,0,0.6),
+        inset -2px 0 5px rgba(255,255,255,0.2);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: #fcf6ba;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .btn-book::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 3px; background: rgba(0,0,0,0.5); }
+    .btn-book::after {
+      content: '';
+      position: absolute;
+      top: 10px; bottom: 10px; left: 25px; right: 10px;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 2px;
+    }
+
+    .btn-book:hover { transform: scale(1.05) translateY(-5px) rotateY(-5deg); box-shadow: 20px 15px 25px rgba(0,0,0,0.5); }
+    .btn-book-content { z-index: 2; display: flex; flex-direction: column; align-items: center; }
+    .btn-book h3 { font-size: 0.9rem; margin-bottom: 5px; text-transform: uppercase; line-height: 1.2; text-shadow: 1px 1px 2px #000; }
+    .btn-book p { font-size: 0.6rem; font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; }
+
+    .rose-icon-small { width: 20px; height: 20px; margin-bottom: 5px; }
+
+    @media (max-width: 600px) {
+      .cover-container { max-width: 90vw; border-radius: 5px; }
+      .btn-gold { font-size: 1rem; padding: 10px 25px; }
+      .action-buttons-container { gap: 15px; }
+      .btn-circle { width: 95px; height: 95px; font-size: 0.55rem; }
+      .btn-book { width: 110px; height: 130px; }
+      .btn-book h3 { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cover-container" id="cover">
+
+    <!-- PÁGINA 1: PORTADA -->
+    <div class="page" id="page1">
+      <img id="img1" src="assets/invitacion-pagina-1.png" alt="Portada Abigail Mis 15 Años" class="main-image">
+      <div class="vignette"></div>
+      <div id="magic-container"></div>
+      <div class="enter-button-container">
+        <button class="btn-gold" type="button" onclick="abrirInvitacion()">Abrir Invitación</button>
+      </div>
+    </div>
+
+    <!-- PÁGINA 2: INTERIOR DEL LIBRO -->
+    <div class="page" id="page2">
+      <img id="img2" src="assets/invitacion-pagina-2.png" alt="Interior Libro Abigail" class="page-2-image">
+
+      <div class="readable-text-container">
+        <div style="color: #d4af37; font-size: 1.5rem; margin-bottom: 10px;">❈</div>
+        <p><em>\"...como el sol que nos da su luz,<br>una nueva etapa comienza a florecer...\"</em></p>
+        <p><em>Quiero hacerte partícipe de mi gran noche,<br>donde la magia se hace realidad, y compartir<br>juntos este hermoso sueño que vivirá por siempre<br>en nuestros corazones.</em></p>
+        <div style="color: #d4af37; font-size: 1.5rem; margin-top: 15px;">❈</div>
+
+        <button class="btn-gold" style="margin-top: 20px; font-size: 1rem; padding: 8px 20px;" type="button" onclick="irAPagina3()">Ver Programa</button>
+      </div>
+    </div>
+
+    <!-- PÁGINA 3: PROGRAMA, CUENTA REGRESIVA Y BOTONES -->
+    <div class="page" id="page3">
+      <div class="parchment-scroll">
+        <h2 class="program-title">Programa de la Noche</h2>
+        <p class="program-subtitle">Una Noche de Cuento</p>
+        <div class="program-date" id="program-date">—</div>
+
+        <div class="event-block">
+          <div class="event-title">
+            <!-- Ícono Iglesia (reemplaza la cruz) -->
+            <svg class="gold-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l2 2v2h2v2h-2v2h-2V8H10v2H8V6h2V4l2-2z"/>
+              <path d="M12 9l8 5v8H4v-8l8-5z"/>
+              <path d="M10 22v-5a2 2 0 0 1 4 0v5h-4z"/>
+              <path d="M7 14h3v3H7v-3zm7 0h3v3h-3v-3z"/>
+            </svg>
+            <span id="ceremonia-titulo">Ceremonia Religiosa</span>
+            <svg class="gold-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l2 2v2h2v2h-2v2h-2V8H10v2H8V6h2V4l2-2z"/>
+              <path d="M12 9l8 5v8H4v-8l8-5z"/>
+              <path d="M10 22v-5a2 2 0 0 1 4 0v5h-4z"/>
+              <path d="M7 14h3v3H7v-3zm7 0h3v3h-3v-3z"/>
+            </svg>
+          </div>
+          <div class="event-details">
+            <b id="ceremonia-lugar">Asamblea de Dios</b><br>
+            Horario: <span id="ceremonia-hora">20:00 hs</span>
+          </div>
+        </div>
+
+        <div style="color: #c7a153; font-size: 1.5rem; margin: 10px 0;">~ ❈ ~</div>
+
+        <div class="event-block">
+          <div class="event-title">
+            <svg class="gold-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 22h20V12h-4v-4h-2v4h-4V7h-2v5H6V8H4v4H2v10zm6-6h2v4H8v-4zm6 0h2v4h-2v-4zM12 2L8 6h8l-4-4z"/>
+            </svg>
+            <span id="fiesta-titulo">Recepción y Fiesta</span>
+            <svg class="gold-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2 22h20V12h-4v-4h-2v4h-4V7h-2v5H6V8H4v4H2v10zm6-6h2v4H8v-4zm6 0h2v4h-2v-4zM12 2L8 6h8l-4-4z"/>
+            </svg>
+          </div>
+          <div class="event-details">
+            <b id="fiesta-lugar">Salón SOEM</b><br>
+            Horario: <span id="fiesta-hora">22:00 hs</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="countdown-title">Faltan...</h3>
+      <div class="countdown-grid">
+        <div class="time-box"><span class="number" id="cd-dias">00</span><span class="label">Días</span></div>
+        <div class="time-box"><span class="number" id="cd-horas">00</span><span class="label">Horas</span></div>
+        <div class="time-box"><span class="number" id="cd-min">00</span><span class="label">Min</span></div>
+        <div class="time-box"><span class="number" id="cd-seg">00</span><span class="label">Seg</span></div>
+      </div>
+
+      <div class="action-buttons-container">
+        <a id="link-iglesia" href="#" target="_blank" rel="noreferrer" class="btn-circle">
+          <svg class="rose-icon-small" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2" aria-hidden="true">
+            <path d="M12 21a9 9 0 0 0 9-9c0-3.5-2.5-6.5-6-7.5-1.5-.5-3.5-.5-6 0-3.5 1-6 4-6 7.5a9 9 0 0 0 9 9z"/>
+            <path d="M12 11c-2-2-4-2-6 0m6 0c2-2 4-2 6 0" stroke="#ff0000"/>
+            <path d="M12 21v-5" stroke="#228b22"/>
+          </svg>
+          VER UBICACIÓN IGLESIA
+          <span>Ver en Google Maps</span>
+        </a>
+
+        <a id="link-wa" href="#" target="_blank" rel="noreferrer" class="btn-book">
+          <div class="btn-book-content">
+            <h3>Confirmar<br>Asistencia</h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#d4af37" style="margin: 5px 0; filter: drop-shadow(0 2px 2px black);" aria-hidden="true">
+              <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.04.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.21 0-.69-.4-1.28-.97-1.47z"/>
+            </svg>
+            <p>¡Te esperamos!</p>
+          </div>
+        </a>
+
+        <a id="link-salon" href="#" target="_blank" rel="noreferrer" class="btn-circle">
+          <svg class="rose-icon-small" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2" aria-hidden="true">
+            <path d="M12 21a9 9 0 0 0 9-9c0-3.5-2.5-6.5-6-7.5-1.5-.5-3.5-.5-6 0-3.5 1-6 4-6 7.5a9 9 0 0 0 9 9z"/>
+            <path d="M12 11c-2-2-4-2-6 0m6 0c2-2 4-2 6 0" stroke="#ff0000"/>
+            <path d="M12 21v-5" stroke="#228b22"/>
+          </svg>
+          VER UBICACIÓN SALÓN
+          <span>Ver en Google Maps</span>
+        </a>
+      </div>
+
+      <div style="height: 20px;"></div>
+    </div>
+
+  </div>
+
+  <script>
+    function abrirInvitacion() {
+      const page1 = document.getElementById('page1');
+      const page2 = document.getElementById('page2');
+      page1.style.transition = "transform 1s ease, opacity 1s ease";
+      page1.style.transform = "scale(1.2) rotateY(10deg)";
+      page1.style.opacity = "0";
+      page1.style.pointerEvents = "none";
+      setTimeout(() => {
+        page2.style.opacity = "1";
+        page2.style.pointerEvents = "auto";
+        page2.style.transform = "scale(1)";
+      }, 500);
+    }
+
+    function irAPagina3() {
+      const page2 = document.getElementById('page2');
+      const page3 = document.getElementById('page3');
+      page2.style.transition = "transform 0.8s ease, opacity 0.8s ease";
+      page2.style.transform = "translateX(-100%) scale(0.95)";
+      page2.style.opacity = "0";
+      page2.style.pointerEvents = "none";
+      page3.style.transition = "transform 0.8s ease, opacity 0.8s ease";
+      setTimeout(() => {
+        page3.style.opacity = "1";
+        page3.style.pointerEvents = "auto";
+        page3.style.transform = "translateX(0)";
+      }, 300);
+    }
+
+    function iniciarCuentaRegresiva() {
+      const cfg = (window.INVITA && window.INVITA.evento) || {};
+      const target = new Date(cfg.cuentaRegresiva || "2026-05-22T20:00:00").getTime();
+
+      const tick = () => {
+        const now = new Date().getTime();
+        const distance = target - now;
+        if (distance <= 0) {
+          document.getElementById("cd-dias").textContent = "00";
+          document.getElementById("cd-horas").textContent = "00";
+          document.getElementById("cd-min").textContent = "00";
+          document.getElementById("cd-seg").textContent = "00";
+          return;
+        }
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("cd-dias").textContent = days < 10 ? "0" + days : String(days);
+        document.getElementById("cd-horas").textContent = hours < 10 ? "0" + hours : String(hours);
+        document.getElementById("cd-min").textContent = minutes < 10 ? "0" + minutes : String(minutes);
+        document.getElementById("cd-seg").textContent = seconds < 10 ? "0" + seconds : String(seconds);
+      };
+
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    function createParticles() {
+      const container = document.getElementById('magic-container');
+      const particleCount = 30;
+      for (let i = 0; i < particleCount; i++) {
+        setTimeout(() => {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          const size = Math.random() * 4 + 1;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.bottom = `${Math.random() * 100}%`;
+          const duration = Math.random() * 3 + 2;
+          particle.style.animation = `floatMagic ${duration}s ease-in-out infinite`;
+          particle.style.animationDelay = `${Math.random() * 5}s`;
+          container.appendChild(particle);
+        }, i * 100);
+      }
+    }
+
+    function createPetals() {
+      const petalCount = 15;
+      for (let i = 0; i < petalCount; i++) {
+        setTimeout(() => {
+          const petal = document.createElement('div');
+          petal.classList.add('petal');
+          const size = Math.random() * 15 + 10;
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size}px`;
+          petal.style.left = `${Math.random() * 100}vw`;
+          const fallDuration = Math.random() * 5 + 5;
+          petal.style.animationDuration = `${fallDuration}s`;
+          petal.style.animationDelay = `${Math.random() * 5}s`;
+          document.body.appendChild(petal);
+        }, i * 300);
+      }
+    }
+
+    function hidratarDatos() {
+      const C = window.INVITA || {};
+      const ev = C.evento || {};
+      const links = C.links || {};
+
+      const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val) el.textContent = val;
+      };
+
+      set("program-date", ev.fechaTitulo);
+      set("ceremonia-titulo", ev.ceremonia && ev.ceremonia.titulo);
+      set("ceremonia-lugar", ev.ceremonia && ev.ceremonia.lugar);
+      set("ceremonia-hora", ev.ceremonia && ev.ceremonia.hora);
+      set("fiesta-titulo", ev.fiesta && ev.fiesta.titulo);
+      set("fiesta-lugar", ev.fiesta && ev.fiesta.lugar);
+      set("fiesta-hora", ev.fiesta && ev.fiesta.hora);
+
+      const a1 = document.getElementById("link-iglesia");
+      const a2 = document.getElementById("link-salon");
+      const a3 = document.getElementById("link-wa");
+      if (a1 && links.mapsIglesia) a1.href = links.mapsIglesia;
+      if (a2 && links.mapsSalon) a2.href = links.mapsSalon;
+      if (a3 && links.whatsapp) a3.href = links.whatsapp;
+    }
+
+    window.onload = () => {
+      hidratarDatos();
+      createParticles();
+      createPetals();
+      iniciarCuentaRegresiva();
+    };
+  </script>
+</body>
+</html>
